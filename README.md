@@ -5,42 +5,29 @@
 > [!WARNING]
 > The plugin API is experimental.
 
-> [!NOTE]
-> This repository only exists for binary distribution of a **plugin-enabled** build of MapLibre Native for iOS.
-> Please use the [main MapLibre Native repository](https://github.com/maplibre/maplibre-native) to report issues or ask for help.
-
-The XCFramework in this package is built from the same sources as the standard MapLibre iOS SDK, with the
-experimental C plugin API enabled (`--//:plugins=true`). It is otherwise identical: the framework and module are
-both called `MapLibre`, so application code keeps using `import MapLibre` or `#import <MapLibre/MapLibre.h>`.
-The framework additionally exports `mln_plugin_register_v1`.
+This repository only exists for binary distribution of MapLibre iOS with plugin API as a Swift package. Please use the [main MapLibre Native repository](https://github.com/maplibre/maplibre-native) to report issues or ask for help.
 
 ## MapLibre iOS distributions
 
 MapLibre iOS is distributed as two Swift packages, both built from the same [MapLibre Native](https://github.com/maplibre/maplibre-native) releases. Use one of them per application.
 
-| Distribution | Swift package | Releases |
+| Distribution | Package URL | Framework |
 | --- | --- | --- |
-| MapLibre iOS | [maplibre/maplibre-gl-native-distribution](https://github.com/maplibre/maplibre-gl-native-distribution) | [Releases](https://github.com/maplibre/maplibre-gl-native-distribution/releases) |
-| MapLibre iOS with plugin API | [maplibre/maplibre-ios-with-plugin-api](https://github.com/maplibre/maplibre-ios-with-plugin-api) | [Releases](https://github.com/maplibre/maplibre-ios-with-plugin-api/releases) |
+| MapLibre iOS | https://github.com/maplibre/maplibre-gl-native-distribution | Dynamic XCFramework |
+| MapLibre iOS with plugin API | https://github.com/maplibre/maplibre-ios-with-plugin-api | Dynamic XCFramework |
 
-## Products
+## Add MapLibre to your project
+
+In Xcode, select File > Add Package Dependencies and enter `https://github.com/maplibre/maplibre-ios-with-plugin-api`. See [Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
+
+## Plugins
 
 | Product | Use it in | Contents |
 | --- | --- | --- |
-| `MapLibre` | Applications | The plugin-enabled `MapLibre.xcframework`. Replaces the standard `MapLibre` product. |
-| `MapLibrePluginApi` | Plugin packages | Header-only C API, included as `<mln/plugin/plugin_api.h>`. No binary. |
+| `MapLibre` | Applications | `MapLibre.xcframework` with the plugin API enabled. |
+| `MapLibrePluginApi` | Plugin packages | The C plugin API, included as `<mln/plugin/plugin_api.h>`. |
 
-Plugin packages should depend only on `MapLibrePluginApi`, never on `MapLibre`, so the application decides which
-MapLibre framework it links. Because both products come from this package, Swift Package Manager resolves the
-header and the binary to the same version.
-
-Use only one MapLibre package per application. This package and `maplibre-gl-native-distribution` both provide a
-`MapLibre` module with the same Objective-C classes, so a dependency graph that contains both cannot link.
-
-## Add it to your project
-
-In Xcode, select File > Add Package Dependencies and enter `https://github.com/maplibre/maplibre-ios-with-plugin-api`.
-In a `Package.swift`:
+Plugin packages should depend only on `MapLibrePluginApi`, so the application decides which MapLibre framework it links. Both products come from this package, so Swift Package Manager resolves the header and the framework to the same version.
 
 ```swift
 dependencies: [
@@ -63,13 +50,3 @@ Register plugins before creating a map that loads a style using their layer type
 char error[512] = {};
 mln_plugin_status status = my_layer_register(&mln_plugin_register_v1, error, sizeof(error));
 ```
-
-## Releases
-
-Releases are made by the [`release`](.github/workflows/release.yml) workflow, which the MapLibre iOS release
-workflow in `maplibre/maplibre-native` dispatches with the release's `MapLibre.dynamic.plugins.xcframework.zip`. It points the binary target at
-that asset, copies `include/mln/plugin/plugin_api.h` from the matching `ios-v<version>` tag, and tags the version.
-
-## Test MapLibre with a Swift Playground
-
-Open `Package.swift` in Xcode, then run `MapLibreTest.playground` with Editor > Run Playground.
