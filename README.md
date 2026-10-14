@@ -2,6 +2,9 @@
 
 [![SPM compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-FA7343.svg?style=flat&logo=Swift)](https://swift.org/package-manager/)
 
+> [!WARNING]
+> The plugin API is experimental.
+
 > [!NOTE]
 > This repository only exists for binary distribution of a **plugin-enabled** build of MapLibre Native for iOS.
 > Please use the [main MapLibre Native repository](https://github.com/maplibre/maplibre-native) to report issues or ask for help.
@@ -10,9 +13,6 @@ The XCFramework in this package is built from the same sources as the standard M
 experimental C plugin API enabled (`--//:plugins=true`). It is otherwise identical: the framework and module are
 both called `MapLibre`, so application code keeps using `import MapLibre` or `#import <MapLibre/MapLibre.h>`.
 The framework additionally exports `mln_plugin_register_v1`.
-
-The plugin API is experimental. Its ABI can change between pre-releases; build plugins against the same version
-of this package that the application uses.
 
 ## MapLibre iOS distributions
 
