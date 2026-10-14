@@ -3,7 +3,7 @@
 [![SPM compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-FA7343.svg?style=flat&logo=Swift)](https://swift.org/package-manager/)
 
 > [!WARNING]
-> The plugin API is experimental.
+> The Plugin API does not yet have stability guarantees.
 
 This repository only exists for binary distribution of MapLibre iOS with plugin API as a Swift package. Please use the [main MapLibre Native repository](https://github.com/maplibre/maplibre-native) to report issues or ask for help.
 
