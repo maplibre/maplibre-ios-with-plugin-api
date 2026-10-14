@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       download_url:
-        description: URL where zip containing the plugin-enabled XCFramework can be downloaded
+        description: URL of MapLibre.dynamic.plugins.xcframework.zip, with MapLibrePluginApi.xcframework.zip next to it
         required: true
         type: string
       version:
@@ -13,10 +13,6 @@ on:
         type: string
       changelog_url:
         description: URL for changelog of release
-        required: false
-        type: string
-      plugin_api_ref:
-        description: maplibre-native ref providing include/mln/plugin/plugin_api.h (defaults to ios-v<version>)
         required: false
         type: string
 
@@ -30,38 +26,30 @@ jobs:
       DOWNLOAD_URL: ${{ inputs.download_url }}
       VERSION: ${{ inputs.version }}
       CHANGELOG_URL: ${{ inputs.changelog_url }}
-      PLUGIN_API_REF: ${{ inputs.plugin_api_ref }}
     steps:
       - uses: actions/checkout@v7
 
-      - name: Download zip, compute checksum
+      - name: Update binary targets in Package.swift
         run: |
-          curl --fail --location --output plugins.xcframework.zip "$DOWNLOAD_URL"
-          # The binary target is named MapLibre, so the archive must contain MapLibre.xcframework.
-          unzip -l plugins.xcframework.zip | grep -q ' MapLibre.xcframework/Info.plist$'
-          echo "checksum=$(swift package compute-checksum plugins.xcframework.zip)" >> "$GITHUB_ENV"
-          rm plugins.xcframework.zip
-
-      - name: Insert new checksum and download URL in Package.swift
-        run: |
-          sed -i '' "s#\(checksum: \"\)\([^\"]*\)#\1$checksum#" Package.swift
-          sed -i '' "s#\(url: \"\)\([^\"]*\)#\1$DOWNLOAD_URL#" Package.swift
-
-      - name: Update plugin API header
-        run: |
-          ref="${PLUGIN_API_REF:-ios-v$VERSION}"
-          curl --fail --location \
-            --output Sources/MapLibrePluginApi/include/mln/plugin/plugin_api.h \
-            "https://raw.githubusercontent.com/maplibre/maplibre-native/$ref/include/mln/plugin/plugin_api.h"
+          # Points binary target $1 at $2. The archive must contain an XCFramework named after the target.
+          update_target() {
+            curl --fail --location --output "$1.zip" "$2"
+            unzip -l "$1.zip" | grep -q " $1.xcframework/Info.plist$"
+            checksum="$(swift package compute-checksum "$1.zip")"
+            NAME="$1" URL="$2" CHECKSUM="$checksum" perl -0pi -e \
+              's/(name: "\Q$ENV{NAME}\E",\s*url: ")[^"]*(",\s*checksum: ")[^"]*/${1}$ENV{URL}${2}$ENV{CHECKSUM}/' Package.swift
+            grep -qF "url: \"$2\"" Package.swift
+            rm "$1.zip"
+          }
+          update_target MapLibre "$DOWNLOAD_URL"
+          update_target MapLibrePluginApi "${DOWNLOAD_URL%/*}/MapLibrePluginApi.xcframework.zip"
 
       - name: Validate Package.swift
-        run: |
-          swift package describe
-          swift build --target MapLibrePluginApi
+        run: swift package describe
 
       - name: Push Package.swift
         run: |
-          git add Package.swift Sources
+          git add Package.swift
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git commit -m "Release $VERSION"
