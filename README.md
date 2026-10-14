@@ -1,4 +1,4 @@
-# MapLibre Native for iOS with the plugin API
+# MapLibre iOS with plugin API
 
 [![SPM compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-FA7343.svg?style=flat&logo=Swift)](https://swift.org/package-manager/)
 
@@ -22,7 +22,7 @@ MapLibre iOS is distributed as two Swift packages, both built from the same [Map
 | Distribution | Swift package | Releases |
 | --- | --- | --- |
 | MapLibre iOS | [maplibre/maplibre-gl-native-distribution](https://github.com/maplibre/maplibre-gl-native-distribution) | [Releases](https://github.com/maplibre/maplibre-gl-native-distribution/releases) |
-| MapLibre iOS with the experimental C plugin API | [maplibre/maplibre-ios-with-plugin-api](https://github.com/maplibre/maplibre-ios-with-plugin-api) | [Releases](https://github.com/maplibre/maplibre-ios-with-plugin-api/releases) |
+| MapLibre iOS with plugin API | [maplibre/maplibre-ios-with-plugin-api](https://github.com/maplibre/maplibre-ios-with-plugin-api) | [Releases](https://github.com/maplibre/maplibre-ios-with-plugin-api/releases) |
 
 ## Products
 
