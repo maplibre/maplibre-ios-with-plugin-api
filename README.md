@@ -2,10 +2,9 @@
 
 [![SPM compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-FA7343.svg?style=flat&logo=Swift)](https://swift.org/package-manager/)
 
-> **Note**
+> [!NOTE]
 > This repository only exists for binary distribution of a **plugin-enabled** build of MapLibre Native for iOS.
 > Please use the [main MapLibre Native repository](https://github.com/maplibre/maplibre-native) to report issues or ask for help.
-> The standard SDK is distributed through [maplibre/maplibre-gl-native-distribution](https://github.com/maplibre/maplibre-gl-native-distribution).
 
 The XCFramework in this package is built from the same sources as the standard MapLibre iOS SDK, with the
 experimental C plugin API enabled (`--//:plugins=true`). It is otherwise identical: the framework and module are
