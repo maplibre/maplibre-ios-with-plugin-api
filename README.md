@@ -45,7 +45,7 @@ In a `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/maplibre/maplibre-ios-with-plugin-api", exact: "7.0.0-pre1"),
+    .package(url: "https://github.com/maplibre/maplibre-ios-with-plugin-api", exact: "7.0.0-pre2"),
 ],
 targets: [
     // Application
