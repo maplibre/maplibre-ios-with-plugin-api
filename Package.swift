@@ -18,8 +18,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MapLibre",
-            url: "https://github.com/maplibre/maplibre-native/releases/download/ios-v7.0.0-pre1/MapLibre.dynamic.plugins.xcframework.zip",
-            checksum: "62ef0cadc4b80c26dbd0bce245c5c25cf8bc4d6b648b5bf4659f41b32177051b"),
+            url: "https://github.com/maplibre/maplibre-native/releases/download/ios-v7.0.0-pre2/MapLibre.dynamic.plugins.xcframework.zip",
+            checksum: "42c969b952c9c76bd040212ba8ad9f693c7ee755e2fd242fba2e564767af02aa"),
         .target(
             name: "MapLibrePluginApi",
             path: "Sources/MapLibrePluginApi")
