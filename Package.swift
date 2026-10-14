@@ -8,7 +8,7 @@ let package = Package(
         .library(
             name: "MapLibre",
             targets: ["MapLibre"]),
-        // C plugin API for plugin packages: <mln/plugin/plugin_api.h>. Applications link `MapLibre`.
+        // Header-only C plugin API for plugin packages. Applications link `MapLibre`.
         .library(
             name: "MapLibrePluginApi",
             targets: ["MapLibrePluginApi"])
@@ -16,14 +16,12 @@ let package = Package(
     dependencies: [
     ],
     targets: [
-        // Both binary targets point at assets of the same MapLibre iOS release; release.yml updates them.
         .binaryTarget(
             name: "MapLibre",
-            url: "https://github.com/maplibre/maplibre-native/releases/download/ios-v7.0.0-pre2/MapLibre.dynamic.plugins.xcframework.zip",
-            checksum: "0000000000000000000000000000000000000000000000000000000000000000"),
-        .binaryTarget(
+            url: "https://github.com/maplibre/maplibre-native/releases/download/ios-v7.0.0-pre1/MapLibre.dynamic.plugins.xcframework.zip",
+            checksum: "62ef0cadc4b80c26dbd0bce245c5c25cf8bc4d6b648b5bf4659f41b32177051b"),
+        .target(
             name: "MapLibrePluginApi",
-            url: "https://github.com/maplibre/maplibre-native/releases/download/ios-v7.0.0-pre2/MapLibrePluginApi.xcframework.zip",
-            checksum: "0000000000000000000000000000000000000000000000000000000000000000")
+            path: "Sources/MapLibrePluginApi")
     ]
 )
