@@ -65,9 +65,6 @@ char error[512] = {};
 mln_plugin_status status = my_layer_register(&mln_plugin_register_v1, error, sizeof(error));
 ```
 
-See [louwers/maplibre-native-plugin-template](https://github.com/louwers/maplibre-native-plugin-template) for
-example plugins.
-
 ## Releases
 
 Releases are made by the [`release`](.github/workflows/release.yml) workflow, which the MapLibre iOS release
