@@ -81,5 +81,5 @@ jobs:
         with:
           name: ${{ inputs.version }}
           tag_name: ${{ inputs.version }}
-          prerelease: ${{ contains(inputs.version, 'pre') }}
+          prerelease: ${{ contains(inputs.version, '-') }}
           body_path: changelog.md
